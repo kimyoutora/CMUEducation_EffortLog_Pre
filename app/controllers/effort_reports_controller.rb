@@ -39,7 +39,7 @@ class EffortReportsController < ApplicationController
   end
 
   def get_course_data(year, week_number, course_id)
-    effort_logs = EffortLog.find_by_sql("select task_type_id, t.name, e.sum as student_effort from effort_log_line_items e,effort_logs el,task_types t where e.sum>0 and e.task_type_id=t.id and e.effort_log_id=el.id AND el.year=#{year} and el.week_number=#{week_number} AND e.course_id=#{course_id} order by task_type_id;")
+    effort_logs = EffortLog.find_by_sql("select task_type_id, t.name, e.sum as student_effort from effort_log_line_items e,effort_logs el,task_types t where e.sum>0 and e.effort_log_id=el.id AND el.year=#{year} AND el.week_number=#{week_number} and e.course_id=#{course_id} order by task_type_id;")
 
     task_type_id_to_value_array_hash = {}
     effort_logs.each do |effort_log|
