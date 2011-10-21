@@ -10,7 +10,7 @@ class EffortReportsController < ApplicationController
   class SemesterPanel
     attr_accessor :program, :track, :graduation_year, :is_part_time, :person_id, :course_id, :semester, :year
 
-    def generate_sql(just_student = nil)
+    def generate_sql(just_student = current_user)
 
       if (self.course_id.blank?)
         sql_statement = "select distinct el.week_number, el.sum as student_effort, el.person_id "
@@ -425,8 +425,8 @@ class EffortReportsController < ApplicationController
       end
     end
 
-    #if the user is a student, move them to be the first column of data
-    if current_user && (!current_user.is_staff? && !current_user.is_admin?) then
+    #unless the user is a student, move them to be the first column of data
+    unless current_user && (!current_user.is_staff? && !current_user.is_admin?) then
       @labels_array.each_index do |i|
         if @labels_array[i] == current_user.human_name then
           labels_index_hash[@labels_array[0]] = i+1
@@ -481,7 +481,7 @@ class EffortReportsController < ApplicationController
       redirect_to(effort_reports_url)
       return
     end
-    @report_lines = EffortLog.find_by_sql(["SELECT effort_logs.year, effort_logs.week_number, users.human_name, task_types.name, effort_log_line_items.sum, effort_log_line_items.course_id FROM effort_log_line_items inner join effort_logs on effort_log_line_items.effort_log_id = effort_logs.id inner join users on users.id = person_id inner join task_types on task_type_id = task_types.id where course_id = ?  order by week_number ", params[:id]])
+    @report_lines = EffortLog.find_by_sql("SELECT effort_logs.year, effort_logs.week_number, users.human_name, task_types.name, effort_log_line_items.sum, effort_log_line_items.course_id FROM effort_log_line_items inner join effort_logs on effort_log_line_items.effort_log_id = effort_logs.id inner join users on users.id = person_id inner join task_types on task_type_id = task_types.id where course_id = #{params[:id]} order by week_number")
 
     respond_to do |format|
       format.html # show.html.erb
@@ -501,7 +501,7 @@ class EffortReportsController < ApplicationController
     #given the course id, determine the start week and the end week of the semester
 
     @report_header = ["Team", "Person"]
-    (1..@course.course_length).each do |week|
+    (1...@course.course_length).each do |week|
       @report_header << "Wk #{week} "
     end
     #    @course.course_length.times do @report_header << "Wk  "  end
