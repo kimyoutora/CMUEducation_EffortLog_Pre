@@ -547,7 +547,7 @@ class EffortReportsController < ApplicationController
   end
 
   def update_total(total_effort, person_result)
-    total_effort.each_index { |i| total_effort[i] += person_result[i] }
+    total_effort.each_index { |i| total_effort[i] + person_result[i] }
   end
 
   def update_count(count_effort, person_result)
