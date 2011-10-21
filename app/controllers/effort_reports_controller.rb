@@ -29,7 +29,7 @@ class EffortReportsController < ApplicationController
         when "PT"
           sql_statement = sql_statement + " and u.is_part_time is true"
         when "FT"
-          sql_statement = sql_statement + " and u.is_part_time is false"
+          sql_statement = sql_statement + " and u.is_full_time is true"
       end
       sql_statement = sql_statement + " and el.person_id=#{self.person_id}" if just_student && !self.person_id.blank?
 
@@ -292,7 +292,6 @@ class EffortReportsController < ApplicationController
 
 
   def campus_week
-    determine_panel_state()
     title = "Campus View - Week " + @panel_state.week_number.to_s + " of " + @panel_state.year.to_s
     course_data = get_campus_week_data(@panel_state.year, @panel_state.week_number)
     @chart_url = generate_google_box_chart(title, course_data)
@@ -300,7 +299,7 @@ class EffortReportsController < ApplicationController
 
 
   def course
-    determine_panel_state()
+     determine_panel_state()
     if params[:panel_state]
       @panel_state.course_id = params[:panel_state][:course_id]
     else
@@ -335,6 +334,7 @@ class EffortReportsController < ApplicationController
 
 
   def index
+	render(:template=>:show_week)
   end
 
   def show_week
