@@ -436,7 +436,7 @@ class EffortReportsController < ApplicationController
         end
       end
       @labels_array.each_index do |i|
-        if @labels_array[i] != current_user.human_name then
+        if @labels_array[i] != current_user.login then
           @labels_array[i] = 'anonymous'
         end
       end
