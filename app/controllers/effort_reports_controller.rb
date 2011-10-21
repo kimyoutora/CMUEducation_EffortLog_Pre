@@ -501,7 +501,7 @@ class EffortReportsController < ApplicationController
     #given the course id, determine the start week and the end week of the semester
 
     @report_header = ["Team", "Person"]
-    (1..@course.course_length).each do |week|
+    (1...@course.course_length).each do |week|
       @report_header << "Wk #{week} "
     end
     #    @course.course_length.times do @report_header << "Wk  "  end
