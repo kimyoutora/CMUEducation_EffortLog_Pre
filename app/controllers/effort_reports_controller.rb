@@ -401,7 +401,7 @@ class EffortReportsController < ApplicationController
 #      end
     end
 
-    if @week_number <= 0 then
+    if @week_number < 0 then
       @week_number = 1
     end
     if @week_number >52 then
