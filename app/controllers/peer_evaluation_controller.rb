@@ -160,7 +160,7 @@ class PeerEvaluationController < ApplicationController
         questioncounter += 1
       end
 
-      personcounter += 1
+      personcounter = 0
       questioncounter = 0
     end
 
