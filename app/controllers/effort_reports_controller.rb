@@ -481,7 +481,7 @@ class EffortReportsController < ApplicationController
       redirect_to(effort_reports_url)
       return
     end
-    @report_lines = EffortLog.find_by_sql(["SELECT effort_logs.year, effort_logs.week_number, users.human_name, task_types.name, effort_log_line_items.sum, effort_log_line_items.course_id FROM effort_log_line_items inner join effort_logs on effort_log_line_items.effort_log_id = effort_logs.id inner join users on users.id = person_id inner join task_types on task_type_id = task_types.id where course_id = ?  order by week_number ", params[:id]])
+    @report_lines = EffortLog.find_by_sql("SELECT effort_logs.year, effort_logs.week_number, users.human_name, task_types.name, effort_log_line_items.sum, effort_log_line_items.course_id FROM effort_log_line_items inner join effort_logs on effort_log_line_items.effort_log_id = effort_logs.id inner join users on users.id = person_id inner join task_types on task_type_id = task_types.id where course_id = #{params[:id]} order by week_number")
 
     respond_to do |format|
       format.html # show.html.erb
