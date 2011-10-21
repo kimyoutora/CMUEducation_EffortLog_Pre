@@ -10,7 +10,7 @@ class EffortReportsController < ApplicationController
   class SemesterPanel
     attr_accessor :program, :track, :graduation_year, :is_part_time, :person_id, :course_id, :semester, :year
 
-    def generate_sql(just_student = nil)
+    def generate_sql(just_student = current_user)
 
       if (self.course_id.blank?)
         sql_statement = "select distinct el.week_number, el.sum as student_effort, el.person_id "
