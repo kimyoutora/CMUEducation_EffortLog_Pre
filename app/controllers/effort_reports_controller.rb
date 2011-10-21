@@ -425,8 +425,8 @@ class EffortReportsController < ApplicationController
       end
     end
 
-    #if the user is a student, move them to be the first column of data
-    if current_user && (!current_user.is_staff? && !current_user.is_admin?) then
+    #unless the user is a student, move them to be the first column of data
+    unless current_user && (!current_user.is_staff? && !current_user.is_admin?) then
       @labels_array.each_index do |i|
         if @labels_array[i] == current_user.human_name then
           labels_index_hash[@labels_array[0]] = i+1
