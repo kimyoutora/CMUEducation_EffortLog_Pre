@@ -1,5 +1,6 @@
 class PeerEvaluationController < ApplicationController
   layout 'cmu_sv'
+  before_filter :authenticate_user!
 
   @@questions = [
       "What was this team member's most significant positive contribution to the team?",
@@ -160,7 +161,7 @@ class PeerEvaluationController < ApplicationController
         questioncounter += 1
       end
 
-      personcounter = 0
+      personcounter += 1
       questioncounter = 0
     end
 
